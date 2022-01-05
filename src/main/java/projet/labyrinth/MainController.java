@@ -92,18 +92,26 @@ public class MainController {
             random_wall1 = (int) ((Math.floor(Math.random() * (table.length -2)) +1));
             random_wall2 = (int) ((Math.floor(Math.random() * (table.length -2)) +1));
             table[random_wall1][random_wall2] = "x";
-            if((table[random_wall1 + 1][random_wall2] == "0" && table[random_wall1 ][random_wall2 + 1] == "0") || (table[random_wall1 + 1 ][random_wall2] == "0" && table[random_wall1 ][random_wall2 - 1] == "0") || (table[random_wall1 + 1 ][random_wall2] == "0" && table[random_wall1 - 1][random_wall2] == "0") || (table[random_wall1 - 1 ][random_wall2] == "0" && table[random_wall1 ][random_wall2 - 1] == "0") || (table[random_wall1 - 1 ][random_wall2] == "0" && table[random_wall1 ][random_wall2 + 1] == "0") || (table[random_wall1][random_wall2 + 1] == "0" && table[random_wall1 ][random_wall2 - 1] == "0")){
+            if((table[random_wall1 + 1][random_wall2] == "O" && table[random_wall1 ][random_wall2 + 1] == "O") || (table[random_wall1 + 1 ][random_wall2] == "O" && table[random_wall1 ][random_wall2 - 1] == "O") || (table[random_wall1 + 1 ][random_wall2] == "O" && table[random_wall1 - 1][random_wall2] == "O") || (table[random_wall1 - 1 ][random_wall2] == "O" && table[random_wall1 ][random_wall2 - 1] == "O") || (table[random_wall1 - 1 ][random_wall2] == "O" && table[random_wall1 ][random_wall2 + 1] == "O") || (table[random_wall1][random_wall2 + 1] == "O" && table[random_wall1 ][random_wall2 - 1] == "O")){
                 table[random_wall1][random_wall2] = "x";
             }
         }
         // That parts check if there is an isolated path and fixx the error.
         for(int x = 1; x < table.length; x++){
             for(int y = 1; y < table.length; y++){
-                if(Objects.equals(table[x][y], "0")){
-                    if(Objects.equals(table[x - 1][y], "x") && Objects.equals(table[x + 1][y], "x")){
-                        if(Objects.equals(table[x][y - 1], "x") && Objects.equals(table[x][y + 1], "x")) {
-                            table[x + 1][y] = "0";
+                if(Objects.equals(table[x][y], "O")){
+                    while(table[x - 1][y] == "x" && table[x + 1][y] == "x" && table[x][y - 1] == "x" && table[x][y + 1] == "x"){
+                        if(table[x + 1][y] == table[14][y]){
+                            table[x - 1][y] = "O";
                         }
+                        else{
+                            table[x + 1][y] = "O";
+                        }
+                    }
+                }
+                if(Objects.equals(table[x][y], "O")){
+                    while(table[x - 1][y] == "O" && table[x + 1][y] == "O" && table[x][y - 1] == "O" && table[x][y + 1] == "O" && table[x][y] == "O"){
+                        table[x][y] = "x";
                     }
                 }
             }
