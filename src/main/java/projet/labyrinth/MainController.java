@@ -96,11 +96,14 @@ public class MainController {
                 table[random_wall1][random_wall2] = "x";
             }
         }
+        // That parts check if there is an isolated path and fixx the error.
         for(int x = 1; x < table.length; x++){
             for(int y = 1; y < table.length; y++){
                 if(Objects.equals(table[x][y], "0")){
-                    if((Objects.equals(table[x - 1][y], "x") && Objects.equals(table[x + 1][y], "x")) && (Objects.equals(table[x][y - 1], "x") && Objects.equals(table[x][y + 1], "x"))){
-                        table[x + 1][y] = "0";
+                    if(Objects.equals(table[x - 1][y], "x") && Objects.equals(table[x + 1][y], "x")){
+                        if(Objects.equals(table[x][y - 1], "x") && Objects.equals(table[x][y + 1], "x")) {
+                            table[x + 1][y] = "0";
+                        }
                     }
                 }
             }
