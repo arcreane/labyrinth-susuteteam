@@ -80,7 +80,7 @@ public class MainController {
             }
         }
         int side1 = (int) (Math.random() * 4);
-        int side2 = 0;
+        int side2;
         String[] my_coords1 = side_to_coordinates(side1,table).split(":");
         String[] my_coords2;
         if (side1 == 0){
@@ -153,40 +153,40 @@ public class MainController {
             coord_x = Integer.parseInt(coord_entrance[0]);
             coord_y = maze.length - 2;
         }
-        int coord_exit_x = 0;
-        int coord_exit_y = 0;
+        int coords_exit_x = 0;
+        int coords_exit_y = 0;
         if (coord_exit[0].equals("0")) {
             maze[1][Integer.parseInt(coord_exit[1])] = "O";
-            coord_exit_x = 1;
-            coord_exit_y = Integer.parseInt(coord_exit[1]);
+            coords_exit_x = 1;
+            coords_exit_y = Integer.parseInt(coord_exit[1]);
         } else if (coord_exit[0].equals("" + (maze.length - 1))) {
             maze[maze.length - 2][Integer.parseInt(coord_exit[1])] = "O";
-            coord_exit_x = maze.length - 2;
-            coord_exit_y = Integer.parseInt(coord_exit[1]);
+            coords_exit_x = maze.length - 2;
+            coords_exit_y = Integer.parseInt(coord_exit[1]);
         } else if (coord_exit[1].equals("0")) {
             maze[Integer.parseInt(coord_exit[0])][1] = "O";
-            coord_exit_x = Integer.parseInt(coord_exit[0]);
-            coord_exit_y = 1;
+            coords_exit_x = Integer.parseInt(coord_exit[0]);
+            coords_exit_y = 1;
         } else if (coord_exit[1].equals("" + (maze.length - 1))) {
             maze[Integer.parseInt(coord_exit[0])][maze.length - 2] = "O";
-            coord_exit_x = Integer.parseInt(coord_exit[0]);
-            coord_exit_y = maze.length - 2;
+            coords_exit_x = Integer.parseInt(coord_exit[0]);
+            coords_exit_y = maze.length - 2;
         }
 
         //Path creator
-        while (coord_x != coord_exit_x || coord_y != Integer.parseInt(coord_exit[1])) {
+        while (coord_x != coords_exit_x || coord_y != Integer.parseInt(coord_exit[1])) {
             magic_random_number = (int) (Math.random() * 4);
             magic_random_number2 = (int) (Math.random() * 100.0);
             magic_random_number3 = (int) (Math.random() * 100.0);
             int the_probability_to_go_to_exit = 30;
 
             if (magic_random_number2 <= the_probability_to_go_to_exit) {
-                if (coord_x == coord_exit_x) {
+                if (coord_x == coords_exit_x) {
                     if (coord_y + 1 != (maze.length - 1)) {
                         maze[coord_x][coord_y + 1] = "O";
                         coord_y = coord_y + 1;
                     }
-                } else if (coord_y == coord_exit_y) {
+                } else if (coord_y == coords_exit_y) {
                     if (coord_x + 1 != (maze.length - 1)) {
                         maze[coord_x + 1][coord_y] = "O";
                         coord_x = coord_x + 1;
