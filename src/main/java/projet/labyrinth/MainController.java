@@ -4,20 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-
-import static java.util.Map.entry;
 
 public class MainController {
 
@@ -61,7 +54,7 @@ public class MainController {
     }
 
     @FXML
-    void launchSolution(ActionEvent event) {
+    void launchSolution() {
 
     }
     public static final String ANSI_RESET = "\u001B[0m";
@@ -72,11 +65,6 @@ public class MainController {
 
         // creation of the table that represent the amazing maze
         String[][] table = new String[table_length][table_length];
-
-        int random_wall1 = 0;
-        int random_wall2 = 0;
-
-        int number_of_entries = 2;
 
         // That part initialize the table with "x" everywhere
         for (int x = 0; x < table.length; x++) {
@@ -260,18 +248,18 @@ public class MainController {
         int number_of_plus_O = 0;
         for(int i = 1; i < (maze.length-2); i++) {
             for(int j = 1; j < (maze.length-2); j++){
-                if(maze[i][j] == "O"){
-                    if(maze[i + 1][j] == "O" && maze[i - 1][j] == "O" && maze[i][j + 1] == "O" && maze[i][j - 1] == "O"){
-                        if(maze[i + 1][j + 1] == "O"){
+                if(maze[i][j].equals("O")){
+                    if(maze[i + 1][j].equals("O") && maze[i - 1][j].equals("O") && maze[i][j + 1].equals("O") && maze[i][j - 1].equals("O")){
+                        if(maze[i + 1][j + 1].equals("O")){
                             number_of_plus_O += 1;
                         }
-                        if(maze[i + 1][j - 1] == "O"){
+                        if(maze[i + 1][j - 1].equals("O")){
                             number_of_plus_O += 1;
                         }
-                        if(maze[i - 1][j + 1] == "O"){
+                        if(maze[i - 1][j + 1].equals("O")){
                             number_of_plus_O += 1;
                         }
-                        if(maze[i - 1][j - 1] == "O"){
+                        if(maze[i - 1][j - 1].equals("O")){
                             number_of_plus_O += 1;
                         }
                         if(number_of_plus_O >= 3){
