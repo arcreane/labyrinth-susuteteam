@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
     public static void main(String[] args) {
         launch();
     }
@@ -25,8 +26,10 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        MainController.A_Maze_Ing(10);
+
+
     }
+
 
 
 
