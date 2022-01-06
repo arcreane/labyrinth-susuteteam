@@ -25,7 +25,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        MainController.A_Maze_Ing(15);
+        MainController.A_Maze_Ing(10);
     }
 
 

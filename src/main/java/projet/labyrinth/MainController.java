@@ -127,7 +127,7 @@ public class MainController {
         /* That part display the amazing maze */
         for(int x = 0; x < table.length; x++){
             for (int y = 0; y < table[x].length; y++) {
-                if (table[x][y] == "O"){
+                if (Objects.equals(table[x][y], "O")){
                     System.out.print(ANSI_RED + table[x][y] + ANSI_RESET + "  ");
                 }else{
                     System.out.print(ANSI_GREEN + table[x][y] + ANSI_RESET + "  ");
@@ -137,8 +137,10 @@ public class MainController {
         }
     }
 
-    private static void mazeGeneration(String[][] maze, String[] coord_entrance, String[] coord_exit){
+    private static void mazeGeneration(String[][] maze, String[] coord_entrance, String[] coord_exit) {
         int magic_random_number = (int) (Math.random() * 4);
+        int magic_random_number2 = (int) (Math.random() * 100);
+        int magic_random_number3 = magic_random_number2;
 
         maze[Integer.parseInt(coord_entrance[0])][Integer.parseInt(coord_entrance[1])] = "O";
         maze[Integer.parseInt(coord_exit[0])][Integer.parseInt(coord_exit[1])] = "O";
@@ -146,7 +148,9 @@ public class MainController {
         int coord_x = 0;
         int coord_y = 0;
 
-        if(coord_entrance[0].equals("0")){
+        //Create the entrance and the exit
+        // if x = 0
+        if (coord_entrance[0].equals("0")) {
             maze[1][Integer.parseInt(coord_entrance[1])] = "O";
             coord_x = 1;
             coord_y = Integer.parseInt(coord_entrance[1]);
@@ -161,62 +165,153 @@ public class MainController {
             coord_x = Integer.parseInt(coord_entrance[0]);
             coord_y = 1;
         }
-        else if(coord_entrance[1].equals("14")){
-            maze[Integer.parseInt(coord_entrance[0])][13] = "O";
+        // if y = max length
+        else if (coord_entrance[1].equals("" + (maze.length - 1))) {
+            maze[Integer.parseInt(coord_entrance[0])][maze.length - 2] = "O";
             coord_x = Integer.parseInt(coord_entrance[0]);
-            coord_y = 13;
+            coord_y = maze.length - 2;
         }
-        if(coord_exit[0].equals("0")){
+        int coord_exit_x = 0;
+        int coord_exit_y = 0;
+        if (coord_exit[0].equals("0")) {
             maze[1][Integer.parseInt(coord_exit[1])] = "O";
-        }
-        else if(coord_exit[0].equals("14")){
-            maze[13][Integer.parseInt(coord_exit[1])] = "O";
-        }
-        else if(coord_exit[1].equals("0")){
+            coord_exit_x = 1;
+            coord_exit_y = Integer.parseInt(coord_exit[1]);
+        } else if (coord_exit[0].equals("" + (maze.length - 1))) {
+            maze[maze.length - 2][Integer.parseInt(coord_exit[1])] = "O";
+            coord_exit_x = maze.length - 2;
+            coord_exit_y = Integer.parseInt(coord_exit[1]);
+        } else if (coord_exit[1].equals("0")) {
             maze[Integer.parseInt(coord_exit[0])][1] = "O";
-        }
-        else if(coord_exit[1].equals("14")){
-            maze[Integer.parseInt(coord_exit[0])][13] = "O";
+            coord_exit_x = Integer.parseInt(coord_exit[0]);
+            coord_exit_y = 1;
+        } else if (coord_exit[1].equals("" + (maze.length - 1))) {
+            maze[Integer.parseInt(coord_exit[0])][maze.length - 2] = "O";
+            coord_exit_x = Integer.parseInt(coord_exit[0]);
+            coord_exit_y = maze.length - 2;
         }
 
-        System.out.println(magic_random_number);
-
-        while(maze[coord_x][coord_y] != maze[Integer.parseInt(coord_exit[0])][Integer.parseInt(coord_exit[1])]){
+        //Path creator
+        while (coord_x != coord_exit_x || coord_y != Integer.parseInt(coord_exit[1])) {
             magic_random_number = (int) (Math.random() * 4);
-            if(magic_random_number == 0){
-                if(maze[coord_x + 1][coord_y] == maze[14][coord_y]){
-                    break;
+            magic_random_number2 = (int) (Math.random() * 100.0);
+            magic_random_number3 = (int) (Math.random() * 100.0);
+            int the_probability_to_go_to_exit = 30;
+
+            if (magic_random_number2 <= the_probability_to_go_to_exit) {
+                if (coord_x == coord_exit_x) {
+                    if (coord_y + 1 != (maze.length - 1)) {
+                        maze[coord_x][coord_y + 1] = "O";
+                        coord_y = coord_y + 1;
+                    }
+                } else if (coord_y == coord_exit_y) {
+                    if (coord_x + 1 != (maze.length - 1)) {
+                        maze[coord_x + 1][coord_y] = "O";
+                        coord_x = coord_x + 1;
+                    }
+                } else {
+                    if (magic_random_number3 > 50) {
+                        if (coord_x + 1 != (maze.length - 1)) {
+                            maze[coord_x + 1][coord_y] = "O";
+                            coord_x = coord_x + 1;
+                        }
+
+                    } else {
+                        if (coord_y + 1 != (maze.length - 1)) {
+                            maze[coord_x][coord_y + 1] = "O";
+                            coord_y = coord_y + 1;
+                        }
+
+                    }
                 }
-                else{
-                    maze[coord_x + 1][coord_y] = "O";
+            } else {
+                //Value 0 = right.
+                if (magic_random_number == 0) {
+                    if (coord_x + 1 == (maze.length - 1)) {
+
+                    } else {
+                        maze[coord_x + 1][coord_y] = "O";
+                        coord_x = coord_x + 1;
+                    }
                 }
-            }
-            else if(magic_random_number == 1){
-                if(maze[coord_x - 1][coord_y] == maze[0][coord_y]){
-                    break;
+                //Value 1 = left.
+                else if (magic_random_number == 1) {
+                    if (coord_x - 1 == 0) {
+
+                    } else {
+                        maze[coord_x - 1][coord_y] = "O";
+                        coord_x = coord_x - 1;
+                    }
                 }
-                else{
-                    maze[coord_x - 1][coord_y] = "O";
+                //Value 2 = top.
+                else if (magic_random_number == 2) {
+                    if (coord_y + 1 == (maze.length - 1)) {
+
+                    } else {
+                        maze[coord_x][coord_y + 1] = "O";
+                        coord_y = coord_y + 1;
+                    }
                 }
-            }
-            else if(magic_random_number == 2){
-                if(maze[coord_x][coord_y + 1] == maze[coord_x][14]){
-                    break;
-                }
-                else{
-                    maze[coord_x][coord_y + 1] = "O";
-                }
-            }
-            else{
-                if(maze[coord_x][coord_y - 1] == maze[coord_x][0]){
-                   break;
-                }
+                //Value 3 = bottom.
                 else {
-                    maze[coord_x][coord_y - 1] = "O";
+                    if (coord_y - 1 == 0) {
+
+                    } else {
+                        maze[coord_x][coord_y - 1] = "O";
+                        coord_y = coord_y - 1;
+                    }
                 }
             }
         }
+        int number_of_plus_O = 0;
+        for(int i = 1; i < (maze.length-2); i++) {
+            for(int j = 1; j < (maze.length-2); j++){
+                if(maze[i][j] == "O"){
+                    if(maze[i + 1][j] == "O" && maze[i - 1][j] == "O" && maze[i][j + 1] == "O" && maze[i][j - 1] == "O"){
+                        if(maze[i + 1][j + 1] == "O"){
+                            number_of_plus_O += 1;
+                        }
+                        if(maze[i + 1][j - 1] == "O"){
+                            number_of_plus_O += 1;
+                        }
+                        if(maze[i - 1][j + 1] == "O"){
+                            number_of_plus_O += 1;
+                        }
+                        if(maze[i - 1][j - 1] == "O"){
+                            number_of_plus_O += 1;
+                        }
+                        if(number_of_plus_O >= 3){
+                            maze[i][j] = "x";
+                        }
+                        number_of_plus_O = 0;
+                    }
+                }
 
+                if(maze[i][j].equals("x")) {
+                    number_of_plus_O = 0;
+                    if(maze[i + 1][j].equals("O") && maze[i - 1][j].equals("O") && maze[i][j + 1].equals("O") && maze[i][j - 1].equals("O")){
+                        if(maze[i + 1][j + 1].equals("O")){
+
+                            number_of_plus_O += 1;
+                        }
+                        if(maze[i + 1][j - 1].equals("O")){
+                            number_of_plus_O += 1;
+                        }
+                        if(maze[i - 1][j + 1].equals("O")){
+                            number_of_plus_O += 1;
+                        }
+                        if(maze[i - 1][j - 1].equals("O")){
+                            number_of_plus_O += 1;
+                        }
+                        if(number_of_plus_O <= 2) {
+                            if (number_of_plus_O > 0) {
+                                maze[i][j] = "O";
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static String side_to_coordinates (int myside, String[][] mytable){
@@ -232,8 +327,8 @@ public class MainController {
         int x = 0;
         int y = 0;
         if (myside == 0){
-            x = mytable.length-1;
-            y = (int) (Math.random() * (mytable.length));
+            x = mytable.length - 1;
+            y = (int) ((Math.random() * (mytable.length - 2))+ 1);
         }else if(myside == 1){
             y = (int) (Math.random() * (mytable.length));
         }else if(myside == 2){
