@@ -109,10 +109,48 @@ public class MainController {
                         }
                     }
                 }
-                if(Objects.equals(table[x][y], "O")){
-                    while(table[x - 1][y] == "O" && table[x + 1][y] == "O" && table[x][y - 1] == "O" && table[x][y + 1] == "O" && table[x][y] == "O"){
-                        table[x][y] = "x";
+                try {
+                    if (Objects.equals(table[x][y], "O")) {
+                        if (table[x - 1][y] == "O" && table[x + 1][y] == "x" && table[x][y - 1] == "x" && table[x][y + 1] == "x") {
+                            if (table[x - 2][y] == "x" && table[x - 1][y - 1] == "x" && table[x - 1][y + 1] == "x") {
+                                if (table[x - 2][y] == table[14][y]) {
+                                    table[x - 1][y + 1] = "O";
+                                } else {
+                                    table[x - 2][y] = "O";
+                                }
+                            }
+                        }
+                        if (table[x - 1][y] == "x" && table[x + 1][y] == "O" && table[x][y - 1] == "x" && table[x][y + 1] == "x") {
+                            if (table[x + 2][y] == "x" && table[x + 1][y - 1] == "x" && table[x + 1][y + 1] == "x") {
+                                if (table[x + 2][y] == table[14][y]) {
+                                    table[x + 1][y + 1] = "O";
+                                } else {
+                                    table[x + 2][y] = "O";
+                                }
+                            }
+                        }
+                        if (table[x - 1][y] == "x" && table[x + 1][y] == "x" && table[x][y - 1] == "O" && table[x][y + 1] == "x") {
+                            if (table[x][y - 2] == "x" && table[x + 1][y - 1] == "x" && table[x - 1][y - 1] == "x") {
+                                if (table[x][y - 2] == table[x][14]) {
+                                    table[x + 1][y - 1] = "O";
+                                } else {
+                                    table[x][y - 2] = "O";
+                                }
+                            }
+                        }
+                        if (table[x - 1][y] == "x" && table[x + 1][y] == "x" && table[x][y - 1] == "x" && table[x][y + 1] == "O") {
+                            if (table[x][y + 2] == "x" && table[x + 1][y + 1] == "x" && table[x - 1][y + 1] == "x") {
+                                if (table[x][y + 2] == table[x][14]) {
+                                    table[x + 1][y + 1] = "O";
+                                } else {
+                                    table[x][y + 2] = "O";
+                                }
+                            }
+                        }
                     }
+                }
+                catch(Exception e){
+
                 }
             }
         }
