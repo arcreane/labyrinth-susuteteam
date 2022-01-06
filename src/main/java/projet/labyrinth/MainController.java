@@ -12,7 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import static java.util.Map.entry;
 
 public class MainController {
 
@@ -65,7 +70,6 @@ public class MainController {
 
     public static void A_Maze_Ing(int table_length) {
 
-
         // creation of the table that represent the amazing maze
         String[][] table = new String[table_length][table_length];
 
@@ -84,103 +88,39 @@ public class MainController {
         // That part put the middle to "0"
         for(int x = 1; x < (table.length - 1); x++){
             for (int y = 1; y < (table[x].length -1) ; y++) {
-                table[x][y]= "O";
-            }
-        }
-        // That part randomize walls in the maze
-        for(int k = 1; k < table.length * 8; k++){
-            random_wall1 = (int) ((Math.floor(Math.random() * (table.length -2)) +1));
-            random_wall2 = (int) ((Math.floor(Math.random() * (table.length -2)) +1));
-            table[random_wall1][random_wall2] = "x";
-            if((table[random_wall1 + 1][random_wall2] == "O" && table[random_wall1 ][random_wall2 + 1] == "O") || (table[random_wall1 + 1 ][random_wall2] == "O" && table[random_wall1 ][random_wall2 - 1] == "O") || (table[random_wall1 + 1 ][random_wall2] == "O" && table[random_wall1 - 1][random_wall2] == "O") || (table[random_wall1 - 1 ][random_wall2] == "O" && table[random_wall1 ][random_wall2 - 1] == "O") || (table[random_wall1 - 1 ][random_wall2] == "O" && table[random_wall1 ][random_wall2 + 1] == "O") || (table[random_wall1][random_wall2 + 1] == "O" && table[random_wall1 ][random_wall2 - 1] == "O")){
-                table[random_wall1][random_wall2] = "x";
-            }
-        }
-        // That parts check if there is an isolated path and fixx the error.
-        for(int x = 1; x < table.length; x++){
-            for(int y = 1; y < table.length; y++){
-                if(Objects.equals(table[x][y], "O")){
-                    while(table[x - 1][y] == "x" && table[x + 1][y] == "x" && table[x][y - 1] == "x" && table[x][y + 1] == "x"){
-                        if(table[x + 1][y] == table[14][y]){
-                            table[x - 1][y] = "O";
-                        }
-                        else{
-                            table[x + 1][y] = "O";
-                        }
-                    }
-                }
-                try {
-                    if (Objects.equals(table[x][y], "O")) {
-                        if (table[x - 1][y] == "O" && table[x + 1][y] == "x" && table[x][y - 1] == "x" && table[x][y + 1] == "x") {
-                            if (table[x - 2][y] == "x" && table[x - 1][y - 1] == "x" && table[x - 1][y + 1] == "x") {
-                                if (table[x - 2][y] == table[14][y]) {
-                                    table[x - 1][y + 1] = "O";
-                                } else {
-                                    table[x - 2][y] = "O";
-                                }
-                            }
-                        }
-                        if (table[x - 1][y] == "x" && table[x + 1][y] == "O" && table[x][y - 1] == "x" && table[x][y + 1] == "x") {
-                            if (table[x + 2][y] == "x" && table[x + 1][y - 1] == "x" && table[x + 1][y + 1] == "x") {
-                                if (table[x + 2][y] == table[14][y]) {
-                                    table[x + 1][y + 1] = "O";
-                                } else {
-                                    table[x + 2][y] = "O";
-                                }
-                            }
-                        }
-                        if (table[x - 1][y] == "x" && table[x + 1][y] == "x" && table[x][y - 1] == "O" && table[x][y + 1] == "x") {
-                            if (table[x][y - 2] == "x" && table[x + 1][y - 1] == "x" && table[x - 1][y - 1] == "x") {
-                                if (table[x][y - 2] == table[x][14]) {
-                                    table[x + 1][y - 1] = "O";
-                                } else {
-                                    table[x][y - 2] = "O";
-                                }
-                            }
-                        }
-                        if (table[x - 1][y] == "x" && table[x + 1][y] == "x" && table[x][y - 1] == "x" && table[x][y + 1] == "O") {
-                            if (table[x][y + 2] == "x" && table[x + 1][y + 1] == "x" && table[x - 1][y + 1] == "x") {
-                                if (table[x][y + 2] == table[x][14]) {
-                                    table[x + 1][y + 1] = "O";
-                                } else {
-                                    table[x][y + 2] = "O";
-                                }
-                            }
-                        }
-                    }
-                }
-                catch(Exception e){
-
-                }
+                table[x][y]= "x";
             }
         }
         int side1 = (int) (Math.random() * 4);
         int side2 = 0;
+        String[] my_coords1 = side_to_coordinates(side1,table).split(":");
+        String[] my_coords2;
         if (side1 == 0){
             side2 = 1;
-            String[] my_coords1 = side_to_coordinates(side1,table).split(":");
+            my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            String[] my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
+            mazeGeneration(table, my_coords1, my_coords2);
         }else if(side1 == 1){
             side2 = 0;
-            String[] my_coords1 = side_to_coordinates(side1,table).split(":");
+            my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            String[] my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
+            mazeGeneration(table, my_coords1, my_coords2);
         }else if(side1 == 2){
             side2 = 3;
-            String[] my_coords1 = side_to_coordinates(side1,table).split(":");
+            my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            String[] my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
+            mazeGeneration(table, my_coords1, my_coords2);
         }else if(side1 == 3){
             side2 = 2;
-            String[] my_coords1 = side_to_coordinates(side1,table).split(":");
+            my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            String[] my_coords2 = side_to_coordinates(side2,table).split(":");
             System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
+            mazeGeneration(table, my_coords1, my_coords2);
         }
+
 
 
 
@@ -197,6 +137,88 @@ public class MainController {
         }
     }
 
+    private static void mazeGeneration(String[][] maze, String[] coord_entrance, String[] coord_exit){
+        int magic_random_number = (int) (Math.random() * 4);
+
+        maze[Integer.parseInt(coord_entrance[0])][Integer.parseInt(coord_entrance[1])] = "O";
+        maze[Integer.parseInt(coord_exit[0])][Integer.parseInt(coord_exit[1])] = "O";
+
+        int coord_x = 0;
+        int coord_y = 0;
+
+        if(coord_entrance[0].equals("0")){
+            maze[1][Integer.parseInt(coord_entrance[1])] = "O";
+            coord_x = 1;
+            coord_y = Integer.parseInt(coord_entrance[1]);
+        }
+        else if(coord_entrance[0].equals("14")){
+            maze[13][Integer.parseInt(coord_entrance[1])] = "O";
+            coord_x = 13;
+            coord_y = Integer.parseInt(coord_entrance[1]);
+        }
+        else if(coord_entrance[1].equals("0")){
+            maze[Integer.parseInt(coord_entrance[0])][1] = "O";
+            coord_x = Integer.parseInt(coord_entrance[0]);
+            coord_y = 1;
+        }
+        else if(coord_entrance[1].equals("14")){
+            maze[Integer.parseInt(coord_entrance[0])][13] = "O";
+            coord_x = Integer.parseInt(coord_entrance[0]);
+            coord_y = 13;
+        }
+        if(coord_exit[0].equals("0")){
+            maze[1][Integer.parseInt(coord_exit[1])] = "O";
+        }
+        else if(coord_exit[0].equals("14")){
+            maze[13][Integer.parseInt(coord_exit[1])] = "O";
+        }
+        else if(coord_exit[1].equals("0")){
+            maze[Integer.parseInt(coord_exit[0])][1] = "O";
+        }
+        else if(coord_exit[1].equals("14")){
+            maze[Integer.parseInt(coord_exit[0])][13] = "O";
+        }
+
+        System.out.println(magic_random_number);
+
+        while(maze[coord_x][coord_y] != maze[Integer.parseInt(coord_exit[0])][Integer.parseInt(coord_exit[1])]){
+            magic_random_number = (int) (Math.random() * 4);
+            if(magic_random_number == 0){
+                if(maze[coord_x + 1][coord_y] == maze[14][coord_y]){
+                    break;
+                }
+                else{
+                    maze[coord_x + 1][coord_y] = "O";
+                }
+            }
+            else if(magic_random_number == 1){
+                if(maze[coord_x - 1][coord_y] == maze[0][coord_y]){
+                    break;
+                }
+                else{
+                    maze[coord_x - 1][coord_y] = "O";
+                }
+            }
+            else if(magic_random_number == 2){
+                if(maze[coord_x][coord_y + 1] == maze[coord_x][14]){
+                    break;
+                }
+                else{
+                    maze[coord_x][coord_y + 1] = "O";
+                }
+            }
+            else{
+                if(maze[coord_x][coord_y - 1] == maze[coord_x][0]){
+                   break;
+                }
+                else {
+                    maze[coord_x][coord_y - 1] = "O";
+                }
+            }
+        }
+
+    }
+
     private static String side_to_coordinates (int myside, String[][] mytable){
         /*
         variation of y:
@@ -210,15 +232,15 @@ public class MainController {
         int x = 0;
         int y = 0;
         if (myside == 0){
-            x = mytable.length;
-            y = (int) ((Math.random() * (mytable.length - 4)) + 2);
+            x = mytable.length-1;
+            y = (int) (Math.random() * (mytable.length));
         }else if(myside == 1){
-            y = (int) ((Math.random() * (mytable.length - 4)) + 2);
+            y = (int) (Math.random() * (mytable.length));
         }else if(myside == 2){
-            x = (int) ((Math.random() * (mytable.length - 4)) + 2);
-            y = mytable.length;
+            x = (int) (Math.random() * (mytable.length));
+            y = mytable.length-1;
         }else if(myside == 3){
-            x = (int) ((Math.random() * (mytable.length - 4)) + 2);
+            x = (int) (Math.random() * (mytable.length));
         }
         return x + ":" + y;
 
