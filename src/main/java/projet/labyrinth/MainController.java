@@ -85,7 +85,7 @@ public class MainController {
             }
         }
 
-        // That part put the middle to "0"
+        // That part put the middle to "x"
         for(int x = 1; x < (table.length - 1); x++){
             for (int y = 1; y < (table[x].length -1) ; y++) {
                 table[x][y]= "x";
@@ -98,26 +98,18 @@ public class MainController {
         if (side1 == 0){
             side2 = 1;
             my_coords2 = side_to_coordinates(side2,table).split(":");
-            System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
             mazeGeneration(table, my_coords1, my_coords2);
         }else if(side1 == 1){
             side2 = 0;
             my_coords2 = side_to_coordinates(side2,table).split(":");
-            System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
             mazeGeneration(table, my_coords1, my_coords2);
         }else if(side1 == 2){
             side2 = 3;
             my_coords2 = side_to_coordinates(side2,table).split(":");
-            System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
             mazeGeneration(table, my_coords1, my_coords2);
         }else if(side1 == 3){
             side2 = 2;
             my_coords2 = side_to_coordinates(side2,table).split(":");
-            System.out.println(my_coords1[0] + " " + my_coords1[1]); /* coordinates of entry */
-            System.out.println(my_coords2[0] + " " + my_coords2[1]); /* coordinates of escape */
             mazeGeneration(table, my_coords1, my_coords2);
         }
 
@@ -155,12 +147,14 @@ public class MainController {
             coord_x = 1;
             coord_y = Integer.parseInt(coord_entrance[1]);
         }
-        else if(coord_entrance[0].equals("14")){
-            maze[13][Integer.parseInt(coord_entrance[1])] = "O";
-            coord_x = 13;
+        // if x = max length
+        else if (coord_entrance[0].equals("" + (maze.length - 1))) {
+            maze[maze.length - 2][Integer.parseInt(coord_entrance[1])] = "O";
+            coord_x = maze.length - 2;
             coord_y = Integer.parseInt(coord_entrance[1]);
         }
-        else if(coord_entrance[1].equals("0")){
+        // if y = 0
+        else if (coord_entrance[1].equals("0")) {
             maze[Integer.parseInt(coord_entrance[0])][1] = "O";
             coord_x = Integer.parseInt(coord_entrance[0]);
             coord_y = 1;
@@ -330,12 +324,12 @@ public class MainController {
             x = mytable.length - 1;
             y = (int) ((Math.random() * (mytable.length - 2))+ 1);
         }else if(myside == 1){
-            y = (int) (Math.random() * (mytable.length));
+            y = (int) ((Math.random() * (mytable.length - 2))+ 1);
         }else if(myside == 2){
-            x = (int) (Math.random() * (mytable.length));
-            y = mytable.length-1;
+            x = (int) ((Math.random() * (mytable.length - 2))+ 1);
+            y = mytable.length - 1;
         }else if(myside == 3){
-            x = (int) (Math.random() * (mytable.length));
+            x = (int) ((Math.random() * (mytable.length - 2))+ 1);
         }
         return x + ":" + y;
 
