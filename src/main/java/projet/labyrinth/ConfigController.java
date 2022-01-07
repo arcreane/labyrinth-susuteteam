@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class StartController implements Initializable {
+public class ConfigController implements Initializable {
 
     @FXML
     private TextField EntryAlgo;
@@ -36,6 +36,7 @@ public class StartController implements Initializable {
     public void Entry() {
         System.out.println(combotBoxBTN.getValue());
     }
+
     @FXML
     public void display(ActionEvent event) {
         combotBoxBTN.getItems().add(EntryAlgo.getText());

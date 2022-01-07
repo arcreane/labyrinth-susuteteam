@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootStartMenu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.labyrinth.StartController">
+<AnchorPane fx:id="rootStartMenu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.labyrinth.ConfigController">
    <children>
       <ComboBox fx:id="combotBoxBTN" layoutX="33.0" layoutY="62.0" prefWidth="150.0" promptText="Choisir votre Algo" />
       <TextField fx:id="EntryAlgo" layoutX="36.0" layoutY="109.0" onAction="#Entry" text="Ajoutez Algo" />

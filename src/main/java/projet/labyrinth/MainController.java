@@ -1,18 +1,23 @@
 package projet.labyrinth;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.controlsfx.control.spreadsheet.Grid;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 public class MainController {
 
@@ -49,7 +54,8 @@ public class MainController {
 
 
     SolutionController stageSolutionController = new SolutionController();
-    StartController stageStartController = new StartController();
+    ConfigController stageConfigController = new ConfigController();
+    MazeController  stageMazeController = new MazeController();
 
 
 
@@ -62,13 +68,22 @@ public class MainController {
 
 
 
+
     }
 
     @FXML
     void launchgame(ActionEvent event) throws IOException {
-        rootMain.getChildren().setAll((Node) FXMLLoader.load(HelloApplication.class.getResource("start-view.fxml")));
+        rootMain.getChildren().setAll((Node) FXMLLoader.load(HelloApplication.class.getResource("config-view.fxml")));
+
         canvasVisibilityHidden();
         gamemodeBtn.setDisable(true);
+
+
+    }
+    @FXML
+    void launchGridView(ActionEvent event) throws IOException {
+        rootMain.getChildren().setAll((Node) FXMLLoader.load(HelloApplication.class.getResource("grid-view.fxml")));
+
 
 
     }
@@ -91,6 +106,7 @@ public class MainController {
     }
 
 
+
     public void cleanCanvas(ActionEvent actionEvent) {
         canvasVisibilityHidden();
         rootCanvasTest.getGraphicsContext2D().clearRect(0, 0, rootCanvasTest.getWidth(), rootCanvasTest.getHeight());
@@ -101,4 +117,7 @@ public class MainController {
         rootCanvasTest.setVisible(false);
         cleanCanvasBtn.setVisible(false);
     }
+
+
 }
+
